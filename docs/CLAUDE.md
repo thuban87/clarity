@@ -28,7 +28,7 @@
 
 1. **Never dismiss spirals** - User is asking for help when he uses this
 2. **Evidence-based only** - Pull from documented facts, not generic platitudes
-3. **Privacy-first** - API keys in Obsidian Keychain (OS-encrypted), no logging sensitive data
+3. **Privacy-first** - API keys in `data.json` (gitignored), no logging sensitive data
 4. **Test thoughtfully** - Real spirals are vulnerable moments
 
 ---
@@ -53,7 +53,7 @@
 
 ### Phase 1: Gemini (Current)
 - **Why:** Free tier, zero cost while testing
-- **Model:** `gemini-1.5-pro`
+- **Model:** `gemini-2.5-flash`
 - **Limits:** 15 req/min, 1,500 req/day
 - **API:** `@google/generative-ai` npm package
 
@@ -80,7 +80,7 @@ Components (UI)  →  Services (Logic)  →  Utils (Pure Functions)
 - **Utils:** Sanitization, caching, file I/O
 
 ### 2. Privacy-First
-- API keys stored in **Obsidian Keychain** (SecretStorage API, OS-encrypted)
+- API keys stored in plugin `data.json` (standard Obsidian settings)
 - No logging of API keys (even in debug mode)
 - DOMPurify all AI outputs before rendering
 - User controls what gets saved to logs
@@ -349,7 +349,7 @@ At end of each session:
 
 ## Security Checklist
 
-- [ ] API keys stored in Obsidian Keychain (via `app.vault.adapter.secrets`)
+- [ ] API keys stored in plugin settings (`data.json`)
 - [ ] Settings UI uses password field for API key entry
 - [ ] DOMPurify all AI outputs
 - [ ] No logging of sensitive data

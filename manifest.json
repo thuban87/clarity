@@ -1,0 +1,11 @@
+{
+	"id": "clarity",
+	"name": "Clarity",
+	"version": "0.1.0",
+	"minAppVersion": "1.11.4",
+	"description": "Evidence-based cognitive reframing using AI and your documented context.",
+	"author": "Brad Wales",
+	"authorUrl": "https://github.com/thuban87",
+	"fundingUrl": "",
+	"isDesktopOnly": false
+}

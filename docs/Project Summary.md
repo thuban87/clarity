@@ -299,7 +299,7 @@ export class GeminiService {
 
   async generateReframe(context: string, spiral: string): Promise<string> {
     const model = this.genAI.getGenerativeModel({
-      model: "gemini-1.5-pro"
+      model: "gemini-2.5-flash"
     });
 
     const prompt = `${context}\n\nSpiral: ${spiral}\n\nGenerate evidence-based reframe.`;
@@ -515,34 +515,33 @@ Provide evidence-based reframe with citations to Brad's documented evidence.
 
 ### API Key Storage
 
-**Use Obsidian Keychain (SecretStorage API):**
+**Stored in Plugin Settings (data.json):**
 
-Obsidian v1.11.4+ provides a built-in secrets API that uses OS-level secure storage (Windows Credential Manager, macOS Keychain, etc.).
+API keys are stored in the plugin's `data.json` file via Obsidian's standard settings API. While not as secure as OS-level keychain storage, this approach is reliable and works across all platforms.
 
-**Store API key (from Settings UI):**
+> [!NOTE]
+> We originally planned to use Obsidian's SecretStorage API (v1.11.4+), but found it to be buggy in practice. The standard data.json approach is used instead until the SecretStorage API stabilizes.
+
+**How it works:**
 ```typescript
-// When user enters API key in settings
-await this.app.vault.adapter.secrets.store('clarity-gemini-key', apiKey);
-await this.app.vault.adapter.secrets.store('clarity-claude-key', claudeKey);
+// Settings interface includes API keys
+interface ClaritySettings {
+  geminiApiKey: string;
+  claudeApiKey: string;
+  // ... other settings
+}
+
+// Saved via standard plugin settings
+await this.saveData(this.settings);
+
+// Loaded on plugin start
+this.settings = await this.loadData();
 ```
 
-**Retrieve API key (in AI service):**
-```typescript
-// src/services/AIService.ts
-const geminiKey = await this.app.vault.adapter.secrets.get('clarity-gemini-key');
-const claudeKey = await this.app.vault.adapter.secrets.get('clarity-claude-key');
-```
-
-**Delete API key (if user clears it):**
-```typescript
-await this.app.vault.adapter.secrets.delete('clarity-gemini-key');
-```
-
-**Benefits:**
-- OS-encrypted at rest (not plaintext in data.json)
-- Per-device storage (keys don't sync, more secure)
-- Native Obsidian API (no custom loaders needed)
-- User enters key once per device in Settings UI
+**Security considerations:**
+- `data.json` is gitignored (not committed to repo)
+- Keys are stored in vault's `.obsidian/plugins/clarity/` folder
+- Syncs with vault if using cloud sync (consideration for shared devices)
 
 ---
 
