@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+
+# Build output
+main.js
+*.js.map
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Environment files (if accidentally created)
+.env
+.env.local
+.env.*.local
+
+# Obsidian plugin data (contains API keys!)
+data.json
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Sync artifacts
+*.ffs_db
+*.ffs_lock
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test coverage
+coverage/
+
+# Optional: if you copy built plugin elsewhere for testing
+dist/
