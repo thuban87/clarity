@@ -28,7 +28,7 @@
 
 1. **Never dismiss spirals** - User is asking for help when he uses this
 2. **Evidence-based only** - Pull from documented facts, not generic platitudes
-3. **Privacy-first** - API keys in .env (gitignored), no logging sensitive data
+3. **Privacy-first** - API keys in Obsidian Keychain (OS-encrypted), no logging sensitive data
 4. **Test thoughtfully** - Real spirals are vulnerable moments
 
 ---
@@ -80,7 +80,7 @@ Components (UI)  →  Services (Logic)  →  Utils (Pure Functions)
 - **Utils:** Sanitization, caching, file I/O
 
 ### 2. Privacy-First
-- API keys in `.env` file (gitignored)
+- API keys stored in **Obsidian Keychain** (SecretStorage API, OS-encrypted)
 - No logging of API keys (even in debug mode)
 - DOMPurify all AI outputs before rendering
 - User controls what gets saved to logs
@@ -349,8 +349,8 @@ At end of each session:
 
 ## Security Checklist
 
-- [ ] API keys in `.env` (gitignored)
-- [ ] `.env.example` committed (no actual keys)
+- [ ] API keys stored in Obsidian Keychain (via `app.vault.adapter.secrets`)
+- [ ] Settings UI uses password field for API key entry
 - [ ] DOMPurify all AI outputs
 - [ ] No logging of sensitive data
 - [ ] No hardcoded API keys

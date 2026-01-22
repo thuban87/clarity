@@ -250,8 +250,7 @@ clarity/
 │   │   └── Reframe.ts         # Reframe data structure
 │   ├── utils/
 │   │   ├── sanitizer.ts       # DOMPurify for AI output
-│   │   ├── caching.ts         # Prompt caching logic
-│   │   └── envLoader.ts       # Load API keys from .env
+│   │   └── caching.ts         # Prompt caching logic
 │   └── settings.ts            # Settings interface
 └── README.md
 ```
@@ -516,33 +515,34 @@ Provide evidence-based reframe with citations to Brad's documented evidence.
 
 ### API Key Storage
 
-**Use .env file (gitignored):**
-```bash
-# .env (DO NOT COMMIT)
-GEMINI_API_KEY=your-key-here
-CLAUDE_API_KEY=your-key-here
-```
+**Use Obsidian Keychain (SecretStorage API):**
 
-**Load in plugin:**
+Obsidian v1.11.4+ provides a built-in secrets API that uses OS-level secure storage (Windows Credential Manager, macOS Keychain, etc.).
+
+**Store API key (from Settings UI):**
 ```typescript
-// src/utils/envLoader.ts
-export class EnvLoader {
-  static async load(vault: Vault): Promise<Record<string, string>> {
-    const envFile = vault.getAbstractFileByPath('.env');
-    if (!envFile || !(envFile instanceof TFile)) return {};
-
-    const content = await vault.read(envFile);
-    const vars: Record<string, string> = {};
-
-    content.split('\n').forEach(line => {
-      const match = line.match(/^([A-Z_]+)=(.+)$/);
-      if (match) vars[match[1]] = match[2];
-    });
-
-    return vars;
-  }
-}
+// When user enters API key in settings
+await this.app.vault.adapter.secrets.store('clarity-gemini-key', apiKey);
+await this.app.vault.adapter.secrets.store('clarity-claude-key', claudeKey);
 ```
+
+**Retrieve API key (in AI service):**
+```typescript
+// src/services/AIService.ts
+const geminiKey = await this.app.vault.adapter.secrets.get('clarity-gemini-key');
+const claudeKey = await this.app.vault.adapter.secrets.get('clarity-claude-key');
+```
+
+**Delete API key (if user clears it):**
+```typescript
+await this.app.vault.adapter.secrets.delete('clarity-gemini-key');
+```
+
+**Benefits:**
+- OS-encrypted at rest (not plaintext in data.json)
+- Per-device storage (keys don't sync, more secure)
+- Native Obsidian API (no custom loaders needed)
+- User enters key once per device in Settings UI
 
 ---
 
