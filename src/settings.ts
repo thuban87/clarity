@@ -1,6 +1,14 @@
 import { App, TFolder, TFile } from 'obsidian';
 
 /**
+ * Pattern matching mode
+ * - 'full': Use cached reframe if pattern matches, else send patterns+context to API
+ * - 'patterns-api': Always send patterns as context, get novel API response
+ * - 'off': Ignore patterns, normal Phase 1 flow
+ */
+export type PatternMode = 'full' | 'patterns-api' | 'off';
+
+/**
  * Plugin settings interface
  */
 export interface ClaritySettings {
@@ -22,6 +30,11 @@ export interface ClaritySettings {
 	autoSaveToLog: boolean;
 	includeMoodRating: boolean;
 	sessionCount: number; // How many recent sessions to include from Session Log
+
+	// Pattern matching (Phase 2)
+	patternMode: PatternMode;
+	patternFilePath: string;
+	patternMatchThreshold: number; // 0-1, e.g. 0.7 = 70% match required
 }
 
 /**
@@ -39,7 +52,11 @@ export const DEFAULT_SETTINGS: ClaritySettings = {
 	logFolder: 'Health/Mental Health/Clarity Logs',
 	autoSaveToLog: true,
 	includeMoodRating: false,
-	sessionCount: 3
+	sessionCount: 3,
+	// Pattern matching defaults
+	patternMode: 'full',
+	patternFilePath: 'Health/Mental Health/Clarity Patterns.md',
+	patternMatchThreshold: 0.7
 };
 
 /**
