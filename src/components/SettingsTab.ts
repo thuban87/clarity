@@ -79,7 +79,7 @@ export class ClaritySettingsTab extends PluginSettingTab {
 
 		// Context Files Section
 		containerEl.createEl('h2', { text: 'Context Files' });
-		containerEl.createEl('p', { 
+		containerEl.createEl('p', {
 			text: 'Files containing your documented context (neuropsych eval, therapy notes, etc.)',
 			cls: 'setting-item-description'
 		});
@@ -107,10 +107,10 @@ export class ClaritySettingsTab extends PluginSettingTab {
 			.addText(text => {
 				text.setPlaceholder('Health/Mental Health/Clarity Logs');
 				text.setValue(this.plugin.settings.logFolder);
-				
+
 				// Add folder autocomplete
 				this.addFolderAutocomplete(text);
-				
+
 				text.onChange(async (value) => {
 					this.plugin.settings.logFolder = value;
 					await this.plugin.saveSettings();
@@ -134,6 +134,47 @@ export class ClaritySettingsTab extends PluginSettingTab {
 				.setValue(this.plugin.settings.includeMoodRating)
 				.onChange(async (value) => {
 					this.plugin.settings.includeMoodRating = value;
+					await this.plugin.saveSettings();
+				}));
+
+		// Pattern Matching Section
+		containerEl.createEl('h2', { text: 'Pattern Matching' });
+
+		new Setting(containerEl)
+			.setName('Pattern Mode')
+			.setDesc('How to use the pattern library')
+			.addDropdown(dropdown => dropdown
+				.addOption('full', 'Full: Use cached reframe if pattern matches')
+				.addOption('patterns-api', 'Patterns + API: Send patterns, get novel response')
+				.addOption('off', 'Off: Ignore patterns, always use API')
+				.setValue(this.plugin.settings.patternMode)
+				.onChange(async (value) => {
+					this.plugin.settings.patternMode = value as 'full' | 'patterns-api' | 'off';
+					await this.plugin.saveSettings();
+				}));
+
+		new Setting(containerEl)
+			.setName('Pattern File')
+			.setDesc('Path to your Clarity Patterns file')
+			.addText(text => {
+				text.setPlaceholder('Health/Mental Health/Clarity Patterns.md');
+				text.setValue(this.plugin.settings.patternFilePath);
+				this.addFileAutocomplete(text);
+				text.onChange(async (value) => {
+					this.plugin.settings.patternFilePath = value;
+					await this.plugin.saveSettings();
+				});
+			});
+
+		new Setting(containerEl)
+			.setName('Match Threshold')
+			.setDesc('Minimum match score to use cached reframe (70% = 0.7)')
+			.addSlider(slider => slider
+				.setLimits(0.5, 1.0, 0.05)
+				.setValue(this.plugin.settings.patternMatchThreshold)
+				.setDynamicTooltip()
+				.onChange(async (value) => {
+					this.plugin.settings.patternMatchThreshold = value;
 					await this.plugin.saveSettings();
 				}));
 
@@ -176,10 +217,10 @@ export class ClaritySettingsTab extends PluginSettingTab {
 			.addText(text => {
 				text.setPlaceholder('Path to file...');
 				text.setValue(filePath);
-				
+
 				// Add file autocomplete
 				this.addFileAutocomplete(text);
-				
+
 				text.onChange(async (value) => {
 					this.plugin.settings.contextFiles[index] = value;
 					await this.plugin.saveSettings();
@@ -201,7 +242,7 @@ export class ClaritySettingsTab extends PluginSettingTab {
 	private addFileAutocomplete(textComponent: TextComponent): void {
 		const inputEl = textComponent.inputEl;
 		const files = getMarkdownFiles(this.app);
-		
+
 		// Create datalist for autocomplete
 		const datalistId = `clarity-files-${Date.now()}`;
 		const datalist = createEl('datalist', { attr: { id: datalistId } });
@@ -218,7 +259,7 @@ export class ClaritySettingsTab extends PluginSettingTab {
 	private addFolderAutocomplete(textComponent: TextComponent): void {
 		const inputEl = textComponent.inputEl;
 		const folders = getFolders(this.app);
-		
+
 		// Create datalist for autocomplete
 		const datalistId = `clarity-folders-${Date.now()}`;
 		const datalist = createEl('datalist', { attr: { id: datalistId } });

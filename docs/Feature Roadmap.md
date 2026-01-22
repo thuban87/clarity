@@ -5,31 +5,22 @@
 
 ---
 
-## Phase 2: Pattern Library (Cost Reduction)
+## Phase 2: Pattern Library (Cost Reduction) ✅ COMPLETE
 
-**Problem:** Calling API for every spiral costs money.
+**Status:** Implemented 2026-01-22
 
-**Solution:** Local pattern matching before API.
+**What was built:**
+- PatternMatcher service with fuzzy keyword matching  
+- 3-mode toggle: Full (cached) / Patterns+API / Off
+- Pattern match indicator (✨ badge with score)
+- Scoring: 50% base for any match, +10% per additional trigger
+- Effectiveness rating (Helped/Didn't Help)
+- Unhelpful reframes archived to `Clarity Logs/Archived - Unhelpful/`
+- `/update-patterns` workflow for local AI updates
 
-**Features:**
-- Analyze past spirals and reframes (from logs)
-- Build pattern library of common spirals
-- Match new spiral against known patterns
-- If match >80% confidence, show cached reframe
-- Only call API for novel spirals
-
-**Example:**
-```
-User: "I don't deserve accommodations..."
-Plugin: "You've had this spiral 5 times. Here's what helped before."
-[Show previous reframe]
-[Button: "Generate Fresh Reframe" if needed]
-```
-
-**Benefits:**
-- Reduces API costs by 50-70%
-- Instant reframes for known patterns
-- Shows progress ("you've worked through this before")
+**Key files:**
+- `src/services/PatternMatcher.ts`
+- `Health/Mental Health/Clarity Patterns.md` (17 patterns)
 
 **Complexity:** Medium (requires text similarity matching)
 

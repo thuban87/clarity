@@ -7,6 +7,7 @@ export interface LogEntry {
 	spiral: SpiralData;
 	reframe: ReframeResult;
 	moodAfter?: number;
+	wasHelpful?: boolean; // Effectiveness rating
 }
 
 export class SpiralLogger {
@@ -19,21 +20,27 @@ export class SpiralLogger {
 	}
 
 	/**
-	 * Log a spiral and reframe to the daily log file
+	 * Log a spiral and reframe to the appropriate log file
+	 * Helpful reframes go to main logs, unhelpful go to archive
 	 */
 	async logEntry(entry: LogEntry): Promise<void> {
-		const logPath = this.getLogPath();
+		const isHelpful = entry.wasHelpful !== false; // Default to helpful
+		const logFolder = isHelpful
+			? this.settings.logFolder
+			: `${this.settings.logFolder}/Archived - Unhelpful`;
+
+		const logPath = this.getLogPath(logFolder);
 		const content = this.formatEntry(entry);
 
 		// Ensure log folder exists
-		await this.ensureFolderExists(this.settings.logFolder);
+		await this.ensureFolderExists(logFolder);
 
 		// Get or create log file
 		let file = this.app.vault.getAbstractFileByPath(logPath);
-		
+
 		if (!file) {
 			// Create new file with header
-			const header = this.getLogHeader();
+			const header = this.getLogHeader(isHelpful);
 			await this.app.vault.create(logPath, header + '\n\n' + content);
 		} else if (file instanceof TFile) {
 			// Append to existing file
@@ -45,24 +52,27 @@ export class SpiralLogger {
 	/**
 	 * Get the path for today's log file
 	 */
-	private getLogPath(): string {
+	private getLogPath(folder: string): string {
 		const today = moment().format('YYYY-MM-DD');
-		return `${this.settings.logFolder}/${today}.md`;
+		return `${folder}/${today}.md`;
 	}
 
 	/**
 	 * Get the header for a new log file
 	 */
-	private getLogHeader(): string {
+	private getLogHeader(isHelpful: boolean): string {
 		const today = moment().format('YYYY-MM-DD');
 		const dayName = moment().format('dddd');
+		const tags = isHelpful
+			? 'clarity\n  - spiral-log'
+			: 'clarity\n  - spiral-log\n  - unhelpful';
+
 		return `---
 tags:
-  - clarity
-  - spiral-log
+  - ${tags}
 date: ${today}
 ---
-# Clarity Log - ${today} (${dayName})`;
+# Clarity Log - ${today} (${dayName})${isHelpful ? '' : ' - Unhelpful Archive'}`;
 	}
 
 	/**
@@ -70,16 +80,16 @@ date: ${today}
 	 */
 	private formatEntry(entry: LogEntry): string {
 		const time = moment().format('HH:mm');
-		const { spiral, reframe, moodAfter } = entry;
+		const { spiral, reframe, moodAfter, wasHelpful } = entry;
 
 		let content = `## ${time}\n\n`;
 		content += `**Spiral:** ${spiral.narrative}\n`;
 		content += `**Certainty:** ${spiral.certainty}/10\n`;
-		
+
 		if (spiral.context) {
 			content += `**Context:** ${spiral.context}\n`;
 		}
-		
+
 		if (spiral.moodBefore !== undefined) {
 			content += `**Mood Before:** ${spiral.moodBefore}/10\n`;
 		}
@@ -88,6 +98,11 @@ date: ${today}
 
 		if (moodAfter !== undefined) {
 			content += `\n**Mood After:** ${moodAfter}/10\n`;
+		}
+
+		// Add effectiveness rating
+		if (wasHelpful !== undefined) {
+			content += `\n**Helpful:** ${wasHelpful ? '✅ Yes' : '❌ No'}\n`;
 		}
 
 		if (reframe.sources.length > 0) {
@@ -100,12 +115,21 @@ date: ${today}
 	}
 
 	/**
-	 * Ensure a folder exists, creating it if necessary
+	 * Ensure a folder exists, creating it if necessary (recursive)
 	 */
 	private async ensureFolderExists(folderPath: string): Promise<void> {
 		const folder = this.app.vault.getAbstractFileByPath(folderPath);
 		if (!folder) {
-			await this.app.vault.createFolder(folderPath);
+			// Create parent folders if needed
+			const parts = folderPath.split('/');
+			let currentPath = '';
+			for (const part of parts) {
+				currentPath = currentPath ? `${currentPath}/${part}` : part;
+				const existing = this.app.vault.getAbstractFileByPath(currentPath);
+				if (!existing) {
+					await this.app.vault.createFolder(currentPath);
+				}
+			}
 		}
 	}
 
@@ -117,6 +141,7 @@ date: ${today}
 			case 'gemini': return 'Gemini';
 			case 'claude-sonnet': return 'Claude Sonnet 4.5';
 			case 'claude-haiku': return 'Claude Haiku';
+			case 'pattern': return 'Cached Pattern';
 			default: return provider;
 		}
 	}
