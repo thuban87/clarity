@@ -78,7 +78,7 @@ Expected: Cite neuropsych eval, ACCESS approval, parents' framework pattern
 **Before starting:**
 - [ ] User creates git repo
 - [ ] User confirms dev environment path
-- [ ] User has Gemini API key ready (will enter in Settings → stored in Obsidian Keychain)
+- [ ] User has Gemini API key ready (will enter in Settings → stored in data.json)
 
 ---
 
