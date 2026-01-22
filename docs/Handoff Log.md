@@ -67,7 +67,7 @@ tags:
 **Test case ready:**
 ```
 Spiral: "I don't deserve accommodations. I'm being needy."
-Expected: Cite neuropsych eval, ACCESS approval, mom's framework pattern
+Expected: Cite neuropsych eval, ACCESS approval, parents' framework pattern
 ```
 
 **Environment:**

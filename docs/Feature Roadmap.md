@@ -68,9 +68,9 @@ Suggested: Walk Obi, 5-minute breathing exercise, or use Clarity reframe.
 
 ---
 
-## Phase 4: Mom's Voice vs Reality Mode
+## Phase 4: Parents' Voice vs Reality Mode
 
-**Problem:** Specific pattern - mom's validation withholding and "tough love" framework shows up repeatedly.
+**Problem:** Specific pattern - parents' validation withholding and "tough love" framework shows up repeatedly.
 
 **Solution:** Dedicated reframe mode for family narratives.
 
@@ -80,9 +80,9 @@ Suggested: Walk Obi, 5-minute breathing exercise, or use Clarity reframe.
 
 ```
 ┌─────────────────────────────────────────┐
-│  Mom's Voice vs Reality                 │
+│  Parents' Voice vs Reality              │
 ├─────────────────────────────────────────┤
-│  MOM'S FRAMEWORK:                       │
+│  PARENTS' FRAMEWORK:                    │
 │  • Needing help = burden                │
 │  • Struggling = moral failure           │
 │  • Accommodations = weakness            │
@@ -100,7 +100,7 @@ Suggested: Walk Obi, 5-minute breathing exercise, or use Clarity reframe.
 ```
 
 **Triggers:**
-- Keywords: "mom", "validation", "needing help", "burden"
+- Keywords: "parents", "validation", "needing help", "burden"
 - Auto-detect family pattern spirals
 
 **Complexity:** Low (template-based)
@@ -203,7 +203,7 @@ anxiety: 8
 **Features:**
 - Settings: "Budget Mode" toggle
 - Auto-detect spiral complexity:
-  - Simple = single pattern (mom's voice, height anxiety)
+  - Simple = single pattern (parents' voice, height anxiety)
   - Complex = multiple patterns, novel spiral
 - Route simple → Haiku ($0.001/reframe)
 - Route complex → Sonnet ($0.02/reframe)
@@ -233,7 +233,7 @@ anxiety: 8
 
 ## Spiral Patterns
 1. Accommodations/worthiness (5 times)
-2. Mom's validation (3 times)
+2. Parents' validation (3 times)
 3. Height anxiety (2 times)
 
 ## Most Effective Reframes

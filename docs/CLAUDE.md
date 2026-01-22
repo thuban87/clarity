@@ -75,7 +75,7 @@ User can switch providers in settings. Graceful fallback if preferred provider f
 Components (UI)  →  Services (Logic)  →  Utils (Pure Functions)
 ```
 
-- **Components:** React UI only, no business logic
+- **Components:** Obsidian Modals (vanilla TS, no React)
 - **Services:** AI calls, context loading, logging
 - **Utils:** Sanitization, caching, file I/O
 
@@ -197,7 +197,7 @@ BRAD'S CONTEXT:
 GUIDELINES:
 1. Start with "EVIDENCE AGAINST THIS NARRATIVE"
 2. Cite sources with file paths
-3. Identify patterns (Mom's voice, hypervigilance)
+3. Identify patterns (parents' voice, hypervigilance)
 4. End with "WHAT'S ACTUALLY TRUE"
 5. Suggest next step if applicable
 
@@ -280,13 +280,13 @@ if (!neuropsychEval) {
 ```
 Spiral: "I don't deserve accommodations. I'm just being needy and should toughen up."
 Certainty: 8/10
-Context: Math teacher hasn't approved homework accommodation yet, mom's disapproving look
+Context: Math teacher hasn't approved homework accommodation yet, parents' disapproving voice
 ```
 
 **Expected Reframe Should Include:**
 - Citation to neuropsych eval (ADHD diagnosis)
 - Citation to session log (ACCESS approval)
-- Pattern recognition (Mom's tough love framework)
+- Pattern recognition (parents' tough love framework)
 - Distinction: Needy vs. reasonable accommodation
 - Next step: Email teacher when mood > 5
 

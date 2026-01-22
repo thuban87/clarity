@@ -22,7 +22,7 @@ created: 2026-01-21
 - "I don't deserve accommodations" (despite doctor, ACCESS, ADA all saying you do)
 - Rehearsing arguments with math teacher that haven't happened yet
 - Couldn't even win in your own imagination
-- Mom's validation withholding voice playing on repeat
+- Parents' validation withholding voice playing on repeat
 
 **The pattern:**
 - Spirals happen when you're NOT at your PC (can't access Claude Code therapy sessions)
@@ -73,7 +73,7 @@ EVIDENCE AGAINST THIS NARRATIVE:
    • ADA protects this - not optional, not negotiable
 
 3. Pattern Recognition (Session Log, 2026-01-16):
-   • This is Mom's "tough love" framework, not reality
+   • This is parents' "tough love" framework, not reality
    • "Needing help = burden" is HER belief, not medical fact
    • Previous therapist dismissed you → you left her
 
@@ -163,7 +163,7 @@ Sources:
 
 **Spiral:** I don't deserve accommodations...
 **Certainty:** 8/10
-**Context:** Math teacher situation, mom's validation withholding
+**Context:** Math teacher situation, parents' validation withholding
 
 **Reframe:**
 [AI-generated reframe content]
@@ -237,9 +237,9 @@ clarity/
 ├── styles.css
 ├── src/
 │   ├── components/
-│   │   ├── ReframeModal.tsx   # Main input modal
-│   │   ├── ResultModal.tsx    # Reframe display
-│   │   └── SettingsTab.tsx    # Settings UI
+│   │   ├── ReframeModal.ts    # Main input modal
+│   │   ├── ResultModal.ts     # Reframe display
+│   │   └── SettingsTab.ts     # Settings UI
 │   ├── services/
 │   │   ├── AIService.ts       # API calls (Gemini + Claude)
 │   │   ├── ContextLoader.ts   # Load neuropsych eval, session logs
@@ -483,7 +483,7 @@ BRAD'S CONTEXT:
 GUIDELINES:
 1. Start with "EVIDENCE AGAINST THIS NARRATIVE"
 2. Cite specific sources with file paths
-3. Distinguish patterns (Mom's voice vs reality, hypervigilance vs truth)
+3. Distinguish patterns (parents' voice vs reality, hypervigilance vs truth)
 4. End with "WHAT'S ACTUALLY TRUE" summary
 5. Suggest concrete next step if applicable
 6. Use compassionate but direct tone
@@ -622,9 +622,9 @@ const sanitizedOutput = DOMPurify.sanitize(aiResponse, {
 - "You've used 'what if' 12 times today - hypervigilance mode active"
 - Suggest grounding exercises
 
-### Phase 4: Mom's Voice vs Reality
+### Phase 4: Parents' Voice vs Reality
 - Specific reframe mode for family narratives
-- Side-by-side comparison: "What Mom's voice says" vs "What's true"
+- Side-by-side comparison: "What parents' voice says" vs "What's true"
 - Track frequency of this pattern
 
 ### Phase 5: Session Mode
